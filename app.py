@@ -30,17 +30,26 @@ local_css("assets/style.css")
 # -----------------------------
 @st.cache_resource
 def load_model():
-    model = joblib.load(
-        "saved_models/best_loan_default_model.joblib"
-    )
 
-    preprocessor = joblib.load(
-        "saved_models/preprocessor.joblib"
-    )
+    try:
 
-    return model, preprocessor
+        model = joblib.load(
+            "saved_models/best_loan_default_model.joblib"
+        )
 
-model, preprocessor = load_model()
+        return model
+
+    except Exception as e:
+
+        st.error(
+            f"MODEL LOAD ERROR: {type(e).__name__}"
+        )
+
+        st.error(str(e))
+
+        st.stop()
+
+model = load_model()
 
 # -----------------------------
 # HEADER
